@@ -7,3 +7,4 @@ BUILD
 */.hg
 SerialDriver/Examples
 
+FPGA_bus

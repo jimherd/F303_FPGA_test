@@ -36,7 +36,7 @@ uint32_t    channel, pulse_width_uS;
     bus.initialise();
     ThisThread::sleep_for(10000);
     pc.printf("Started.....\n");
-    test_number = TEST_SERVO_2;
+    test_number = TEST_PWM_1;
 
     //
     // read system data from FPGA board
@@ -51,13 +51,9 @@ uint32_t    channel, pulse_width_uS;
 
     switch (test_number) {
         case TEST_PWM_1 : {
-                bus.set_PWM_period(PWM_ch0, 5.0 /* KHz */);  // PWM_ch0
-                bus.set_PWM_duty(PWM_ch0, 99 /* % */);
-                bus.PWM_config(PWM_ch0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
-
-                bus.set_PWM_period(PWM_ch1, 10.0 /* KHz */);
-                bus.set_PWM_duty(PWM_ch1, 80 /* % */);
-                bus.PWM_enable(PWM_ch1);
+                bus.set_PWM_period(0, 5.0 /* KHz */);  // PWM_ch0
+                bus.set_PWM_duty(0, 50 /* % */);
+                bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
 
                 if (bus.global_FPGA_unit_error_flag != NO_ERROR) {
                     pc.printf(" PWM Test 1 : error :: %d\n", bus.global_FPGA_unit_error_flag);
@@ -68,20 +64,20 @@ uint32_t    channel, pulse_width_uS;
                 break;
         }
         case TEST_PWM_2 : {
-                bus.set_PWM_period(PWM_ch0, 5.0 /* KHz */);
-                bus.set_PWM_duty(PWM_ch0, 0 /* % */);
-                bus.PWM_config(PWM_ch0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
+                bus.set_PWM_period(0, 5.0 /* KHz */);
+                bus.set_PWM_duty(0, 0 /* % */);
+                bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
                 for (int i=0 ; i < 101 ; i++) {
-                   bus.set_PWM_duty(PWM_ch0, i /* % */);
-                   bus.PWM_config(PWM_ch0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
+                   bus.set_PWM_duty(0, i /* % */);
+                   bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
                    ThisThread::sleep_for(1000);
                 }
                 for (int i=100 ; i >= 0 ; i--) {
-                   bus.set_PWM_duty(PWM_ch0, i /* % */);
-                   bus.PWM_config(PWM_ch0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
+                   bus.set_PWM_duty(0, i /* % */);
+                   bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
                    ThisThread::sleep_for(1000);
                 }
-                bus.PWM_config(PWM_ch0, PWM_OFF);
+                bus.PWM_config(0, PWM_OFF);
                 if (bus.global_FPGA_unit_error_flag != NO_ERROR) {
                     pc.printf(" PWM Test 2 : error :: %d\n", bus.global_FPGA_unit_error_flag);
                     bus.global_FPGA_unit_error_flag = NO_ERROR;
