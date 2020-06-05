@@ -19,10 +19,9 @@ FPGA_bus  bus(1,1,8);
 //SerialDriver pc(USBTX, USBRX);
 SerialDriver pc(PB_6, PB_7);
 
-void prog_init(void)
-{
+void prog_init(void) {
     pc.baud(115200);
-    pc.printf("F302 comms test.\n");
+    pc.printf("F303 FPGA comms test.\n");
 }
 
 //
