@@ -40,7 +40,7 @@ uint32_t    channel, pulse_width_uS;
 
     prog_init();
     bus.initialise();
-    ThisThread::sleep_for(10000);
+    ThisThread::sleep_for(10s);
     printf("Started.....\n");
     test_number = TEST_PWM_1;
 
@@ -76,12 +76,12 @@ uint32_t    channel, pulse_width_uS;
                 for (int i=0 ; i < 101 ; i++) {
                    bus.set_PWM_duty(0, i /* % */);
                    bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
-                   ThisThread::sleep_for(1000);
+                   ThisThread::sleep_for(1s);
                 }
                 for (int i=100 ; i >= 0 ; i--) {
                    bus.set_PWM_duty(0, i /* % */);
                    bus.PWM_config(0, (PWM_ON + INT_H_BRIDGE_ON + MOTOR_FORWARD));
-                   ThisThread::sleep_for(1000);
+                   ThisThread::sleep_for(1s);
                 }
                 bus.PWM_config(0, PWM_OFF);
                 if (bus.global_FPGA_unit_error_flag != NO_ERROR) {
@@ -97,7 +97,7 @@ uint32_t    channel, pulse_width_uS;
                 channel = 0; pulse_width_uS = 1500;
                 bus.set_RC_pulse(channel, pulse_width_uS);
                 bus.enable_RC_channel(channel); printf("config = %d\n", bus.global_FPGA_unit_error_flag);
-                ThisThread::sleep_for(20);
+                ThisThread::sleep_for(20ms);
                 bus.disable_RC_channel(channel);
                  if (bus.global_FPGA_unit_error_flag != NO_ERROR) {
                     printf(" SERVO Test 1 : error :: %d\n", bus.global_FPGA_unit_error_flag);
@@ -114,7 +114,7 @@ uint32_t    channel, pulse_width_uS;
                 for (int step=0; step<=10; step++) {
                     pulse_width_uS = 1000 + (100 * step);
                     bus.set_RC_pulse(channel, pulse_width_uS);
-                    ThisThread::sleep_for(1000);
+                    ThisThread::sleep_for(1s);
                 }
                 if (bus.global_FPGA_unit_error_flag != NO_ERROR) {
                     printf(" SERVO Test 2 : error :: %d\n", bus.global_FPGA_unit_error_flag);
