@@ -4,11 +4,10 @@
  */
 
 //
-// F302_comm_test : Test bus connection to FPGA
+// F303_comm_test : Test bus connection to FPGA
 //
 #include "mbed.h"
 #include "FPGA_bus.h"
-//#include "SerialDriver.h"
 
 enum {TEST_PWM_1, TEST_PWM_2, TEST_SERVO_1, TEST_SERVO_2, TEST_SPEED_MEASURE, TEST_H_BRIDGE_1};
 
@@ -36,24 +35,17 @@ void prog_init(void) {
 
 int main() {
 
-uint32_t    channel, pulse_width_uS;
+uint32_t    channel, pulse_width_uS, status;
 
     prog_init();
-    bus.initialise();
-    ThisThread::sleep_for(10s);
+    status = bus.initialise();
+    if (status != NO_ERROR) {
+        printf("Init error = %d\n", status);
+        LOOP_HERE;
+    }
+    ThisThread::sleep_for(1s);
     printf("Started.....\n");
-    test_number = TEST_PWM_1;
-
-    //
-    // read system data from FPGA board
-
-    uint32_t sys_data = bus.get_SYS_data();
-
-    printf("Major version number   = %d\n", sys_data & 0x0000000F);
-    printf("Minor version number   = %d\n", ((sys_data >> 4) & 0x0000000F));
-    printf("Number of PWM channels = %d\n", ((sys_data >> 8) & 0x0000000F));
-    printf("Number of QE channels  = %d\n", ((sys_data >> 12) & 0x0000000F));
-    printf("Number of RC channels  = %d\n", ((sys_data >> 16) & 0x0000000F));
+    test_number = TEST_SERVO_2;
 
     switch (test_number) {
         case TEST_PWM_1 : {
